@@ -3,8 +3,10 @@
   <div class="container">
     <div class="center-header">
        <div class="center-header-img">
-         <image :src="userInfo.avatarUrl"></image>
-         <p class="header-name">{{userInfo.nickName}}</p>
+         <div class="user-img">
+            <open-data type="userAvatarUrl" style="border-radius:100%;"></open-data>
+          </div>
+        <open-data type="userNickName" class="header-name"></open-data>
        </div>
     </div>
     <div class="center-container">
@@ -120,15 +122,17 @@ export default {
 .center-header-img{
   position: absolute;
   left:50%;
-  bottom: -150rpx;
+  bottom: -130rpx;
   transform: translateX(-50%);
   text-align: center;
   font-size:36rpx;
-  image{
+  z-index: 99;
+  .user-img{
     width:130rpx;
     height:130rpx;
-    border-radius: 100%;
+    border-radius: 50%;
     border:3px solid #ffffff;
+    overflow: hidden;
   }
   p{
     margin-top:20rpx;

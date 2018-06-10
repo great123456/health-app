@@ -1,26 +1,23 @@
 <!-- 订单列表 -->
 <template>
   <div class="container">
-    <div class="order-option">
-      <p class="order-title">24小时动态心电检查</p>
-      <p class="order-time"><span>2018-05-16</span> <span>13:36</span></p>
-      <p class="order-price">￥300</p>
+    <div class="order-option" v-for="(item,index) in orderList" :key="index">
+      <p class="order-title">{{item.type == 1?'24小时心电图检查':'预约住院'}}</p>
+      <p class="order-time"><span>{{item.created_at}}</span></p>
+      <p class="order-price">￥{{item.total}}</p>
     </div>
-    <div class="order-option">
-      <p class="order-title">24小时动态心电检查</p>
-      <p class="order-time"><span>2018-05-16</span> <span>13:36</span></p>
-      <p class="order-price">￥300</p>
-    </div>
+    <p v-if="orderList.length == 0" style="text-align:center;color:#b5b6b7;padding-top:30rpx;">暂无个人订单</p>
   </div>
 </template>
 
 <script>
 import wxShare from '@/mixins/wx-share'
+import { apiOrderList } from '@/service/my'
 export default {
   mixins: [wxShare],
   data () {
     return {
-
+      orderList: []
     }
   },
   components: {
@@ -30,13 +27,18 @@ export default {
 
   },
   onShow(){
-
+    this.getOrderList()
   },
   created(){
 
   },
   methods: {
-
+    getOrderList(){
+      apiOrderList()
+      .then((res)=>{
+        this.orderList = res.data.list
+      })
+    }
   }
 }
 </script>

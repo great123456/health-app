@@ -2,44 +2,30 @@
 <template>
   <div class="container">
     <div class="detail-container">
-      <p class="detail-title">瓣膜病</p>
+      <p class="detail-title">{{detail.name}}</p>
       <p class="detail-type">
         <span>推荐科室</span>
-        <span class="detail-work">心胸外科</span>
+        <span class="detail-work">{{detail.department}}</span>
       </p>
-      <p class="detail-text">骨质疏松即骨质疏松症，是多种原因引起的一组骨病，骨组织有正常的钙化，
-        钙盐与基质呈正常比例，以单位体积内骨组织量减少为特点的代谢性骨病变。
-        在多数骨质疏松中，骨组织的减少主要由于骨质吸收增多所致。以骨骼疼痛、易于骨折为特征。</p>
+      <p class="detail-text">{{detail.content}}</p>
       <p class="detail-btn" @click="editMessagePage">去问诊</p>
     </div>
 
     <div class="recommend">
        <p class="recommend-title">专家推荐</p>
-       <div class="recommend-option" @click="introducePage">
+       <div class="recommend-option" @click="introducePage(item.id)" v-for="(item,index) in doctorList" :key="index">
          <div class="recommend-option-img">
            <image src="/static/image/index/doctor.png" mode="widthFix"></image>
          </div>
          <div class="recommend-content">
            <p>
-             <span class="recommend-name">曾春芳</span>
-             <span class="recommend-rank">科主任</span>
+             <span class="recommend-name">{{item.name}}</span>
+             <span class="recommend-rank">{{item.position}}</span>
            </p>
-           <p class="recommend-site">海南医学院第一附属医院心电图室</p>
-           <p class="recommend-text">海南医学院第一附属医院心电图室,科室主任,教授,中国心电学会无创心脏电医生理专业委员会...</p>
+           <p class="recommend-site">{{item.hospital}}</p>
+           <p class="recommend-text">{{item.introduction}}</p>
          </div>
        </div>
-       <div class="recommend-option"  @click="introducePage">
-         <div class="recommend-option-img">
-           <image src="/static/image/index/doctor.png" mode="widthFix"></image>
-         </div>
-         <div class="recommend-content">
-           <p>
-             <span class="recommend-name">曾春芳</span>
-             <span class="recommend-rank">科主任</span>
-           </p>
-           <p class="recommend-site">海南医学院第一附属医院心电图室</p>
-           <p class="recommend-text">海南医学院第一附属医院心电图室,科室主任,教授,中国心电学会无创心脏电医生理专业委员会...</p>
-         </div>
        </div>
     </div>
 
@@ -48,11 +34,14 @@
 
 <script>
 import wxShare from '@/mixins/wx-share'
+import { apiTypeDetail,apiDoctorList } from '@/service/my'
 export default {
   mixins: [wxShare],
   data () {
     return {
-
+      typeId: '',
+      detail: {},
+      doctorList: []
     }
   },
   components: {
@@ -62,15 +51,42 @@ export default {
 
   },
   onShow(){
-
+    console.log('query',this.$mp.query);
+    this.typeId = this.$mp.query.id
+    this.getTypeDetail()
+    this.getDoctorList()
   },
   created(){
 
   },
   methods: {
-    introducePage(){
+    getTypeDetail(){
+      apiTypeDetail({
+        id: this.typeId
+      })
+      .then((res)=>{
+        if(res.code == 200){
+          console.log('type',res);
+          this.detail = res.data
+        }
+      })
+    },
+    getDoctorList(){
+      this.doctorList = []
+      apiDoctorList()
+      .then((res)=>{
+        if(res.data.list.length<=3){
+          this.doctorList = res.data.list
+        }else{
+          this.doctorList.push(res.data.list[0])
+          this.doctorList.push(res.data.list[1])
+          this.doctorList.push(res.data.list[2])
+        }
+      })
+    },
+    introducePage(id){
       wx.navigateTo({
-         url: '/pages/introduce/introduce'
+         url: '/pages/introduce/introduce?id='+id
        })
     },
     editMessagePage(){
@@ -93,6 +109,7 @@ export default {
   background: #ffffff;
   padding: 30rpx 20rpx;
   position: relative;
+  box-sizing: border-box;
   .detail-title{
     color: #333333;
     font-size: 32rpx;

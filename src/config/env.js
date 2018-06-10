@@ -4,7 +4,7 @@
  * PRICE_RANGE 匹配价格区间
  */
 
-var API_PATH=""
+var API_PATH="https://healthapi.hxgtech.com/api"
 const isDEV = process.env.NODE_ENV === 'development'
 
 // 正则表达式

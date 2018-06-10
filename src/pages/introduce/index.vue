@@ -3,23 +3,20 @@
   <div class="container">
      <div class="introduce-header">
        <image src="/static/image/index/doctor.png" mode="widthFix"></image>
-       <p class="introduce-name">曾春芳</p>
-       <p class="introduce-rank">主任医师</p>
-       <p class="introduce-site">海南医学院第一附属医院</p>
+       <p class="introduce-name">{{detail.name}}</p>
+       <p class="introduce-rank">{{detail.position}}</p>
+       <p class="introduce-site">{{detail.hospital}}</p>
        <p class="introduce-advantage">
          擅长
-         <span>先天性心脏病</span>
+         <span>{{detail.good_at}}</span>
        </p>
-       <p class="introduce-text">掌握无创心血管检查各项技术,参与心血管介入治疗,扎实的心电图基础理论</p>
+       <p class="introduce-text">{{detail.introduction}}</p>
        <p class="introduce-btn" @click="editMessagePage">去问诊</p>
      </div>
      <div class="introduce-container">
         <div class="introduce-content">
           <p class="introduce-content-title">医生介绍</p>
-          <p class="introduce-content-text">曾春芳，女，副主任医师，医学硕士。1991年毕业于同济医科大学，同年分配到泸州医学院附院呼吸内科工作至2000年；
-            2000年就读于重庆医科大学，2003年毕业并获呼吸内科硕士学位，同年分配到绵阳市中心医院呼吸内科工作至今。从事呼吸内科临床工作20年，
-            具有丰富的临床经验，能熟练诊治呼吸内科常见病如慢性阻塞性肺疾病、支气管哮喘、肺炎、胸腔积液、气胸等，擅长对呼吸内科疑难病例的诊治，
-            能熟练进行呼吸内科纤支镜、胸腔闭式引流、胸膜活检等各种临床操作；具有较强的教学、科研能力，至今在国家级重点期刊上发表学术论文十余篇</p>
+          <p class="introduce-content-text">{{detail.content}}</p>
         </div>
      </div>
   </div>
@@ -27,11 +24,13 @@
 
 <script>
 import wxShare from '@/mixins/wx-share'
+import { apiDoctorDetail } from '@/service/my'
 export default {
   mixins: [wxShare],
   data () {
     return {
-
+      detailId: '',
+      detail: {}
     }
   },
   components: {
@@ -41,12 +40,22 @@ export default {
 
   },
   onShow(){
-
+    console.log('query',this.$mp.query);
+    this.detailId = this.$mp.query.id
+    this.getDoctorDetail()
   },
   created(){
 
   },
   methods: {
+    getDoctorDetail(){
+      apiDoctorDetail({
+        id: this.detailId
+      })
+      .then((res)=>{
+        this.detail = res.data
+      })
+    },
     editMessagePage(){
       wx.navigateTo({
          url: '/pages/edit-message/edit-message'

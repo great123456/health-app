@@ -34,36 +34,23 @@
      <div class="category">
        <p>病种分类</p>
        <ul>
-         <li v-for="(item,index) in categoryList" :key="index" @click="detailPage">{{item}}</li>
+         <li v-for="(item,index) in categoryList" :key="index" @click="detailPage(item.id)">{{item.name}}</li>
        </ul>
      </div>
 
      <div class="recommend">
         <p class="recommend-title">专家推荐</p>
-        <div class="recommend-option" @click="introducePage">
+        <div class="recommend-option" @click="introducePage(item.id)" v-for="(item,index) in doctorList" :key="index">
           <div class="recommend-option-img">
             <image src="/static/image/index/doctor.png" mode="widthFix"></image>
           </div>
           <div class="recommend-content">
             <p>
-              <span class="recommend-name">曾春芳</span>
-              <span class="recommend-rank">科主任</span>
+              <span class="recommend-name">{{item.name}}</span>
+              <span class="recommend-rank">{{item.position}}</span>
             </p>
-            <p class="recommend-site">海南医学院第一附属医院心电图室</p>
-            <p class="recommend-text">海南医学院第一附属医院心电图室,科室主任,教授,中国心电学会无创心脏电医生理专业委员会...</p>
-          </div>
-        </div>
-        <div class="recommend-option"  @click="introducePage">
-          <div class="recommend-option-img">
-            <image src="/static/image/index/doctor.png" mode="widthFix"></image>
-          </div>
-          <div class="recommend-content">
-            <p>
-              <span class="recommend-name">曾春芳</span>
-              <span class="recommend-rank">科主任</span>
-            </p>
-            <p class="recommend-site">海南医学院第一附属医院心电图室</p>
-            <p class="recommend-text">海南医学院第一附属医院心电图室,科室主任,教授,中国心电学会无创心脏电医生理专业委员会...</p>
+            <p class="recommend-site">{{item.hospital}}</p>
+            <p class="recommend-text">{{item.introduction}}</p>
           </div>
         </div>
      </div>
@@ -73,6 +60,7 @@
 
 <script>
 import wxShare from '@/mixins/wx-share'
+import { userLogin,apiTypeList,apiDoctorList } from '@/service/my'
 export default {
   mixins: [wxShare],
   data () {
@@ -88,7 +76,8 @@ export default {
      autoplay: true,
      interval: 2000,
      duration: 300,
-     categoryList: ['心脏病','先心病','骨质疏松','骨质疏松','骨质疏松','骨质疏松']
+     categoryList: [],
+     doctorList: []
     }
   },
   components: {
@@ -106,26 +95,49 @@ export default {
   methods: {
     getUserInfo () {
       // 调用登录接口
+      const self = this
       wx.login({
-        success: () => {
-          wx.getUserInfo({
-            success: (res) => {
-              // console.log('res',res)
-              this.userInfo = res.userInfo
-              wx.setStorageSync('userInfo', res.userInfo)
-            }
+        success: (res) => {
+          userLogin({
+            code: res.code
+          })
+          .then((res)=>{
+            console.log('login-res',res);
+            wx.setStorageSync('token', res.data.token)
+            self.getTypeList()
+            self.getDoctorList()
           })
         }
       })
     },
-    introducePage(){
+    getTypeList(){
+      apiTypeList()
+      .then((res)=>{
+        console.log('type',res);
+        this.categoryList = res.data.list
+      })
+    },
+    getDoctorList(){
+      this.doctorList = []
+      apiDoctorList()
+      .then((res)=>{
+        if(res.data.list.length<=3){
+          this.doctorList = res.data.list
+        }else{
+          this.doctorList.push(res.data.list[0])
+          this.doctorList.push(res.data.list[1])
+          this.doctorList.push(res.data.list[2])
+        }
+      })
+    },
+    introducePage(id){
       wx.navigateTo({
-         url: '/pages/introduce/introduce'
+         url: '/pages/introduce/introduce?id='+id
        })
     },
-    detailPage(){
+    detailPage(id){
       wx.navigateTo({
-         url: '/pages/detail/detail'
+         url: '/pages/detail/detail?id='+id
        })
     },
     editMessagePage(){
@@ -170,7 +182,6 @@ export default {
 .category{
   background: #ffffff;
   border-radius: 10rpx;
-  height:228rpx;
   margin-top: 40rpx;
   padding:30rpx 20rpx;
   p{

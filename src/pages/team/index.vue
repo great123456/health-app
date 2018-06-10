@@ -2,56 +2,17 @@
 <template>
   <div class="container">
       <div class="recommend">
-        <div class="recommend-option" @click="introducePage">
+        <div class="recommend-option" @click="introducePage(item.id)" v-for="(item,index) in doctorList" :key="index">
           <div class="recommend-option-img">
             <image src="/static/image/index/doctor.png" mode="widthFix"></image>
           </div>
           <div class="recommend-content">
             <p>
-              <span class="recommend-name">曾春芳</span>
-              <span class="recommend-rank">科主任</span>
+              <span class="recommend-name">{{item.name}}</span>
+              <span class="recommend-rank">{{item.position}}</span>
             </p>
-            <p class="recommend-site">海南医学院第一附属医院心电图室</p>
-            <p class="recommend-text">海南医学院第一附属医院心电图室,科室主任,教授,中国心电学会无创心脏电医生理专业委员会...</p>
-          </div>
-        </div>
-        <div class="recommend-option" @click="introducePage">
-          <div class="recommend-option-img">
-            <image src="/static/image/index/doctor.png" mode="widthFix"></image>
-          </div>
-          <div class="recommend-content">
-            <p>
-              <span class="recommend-name">曾春芳</span>
-              <span class="recommend-rank">科主任</span>
-            </p>
-            <p class="recommend-site">海南医学院第一附属医院心电图室</p>
-            <p class="recommend-text">海南医学院第一附属医院心电图室,科室主任,教授,中国心电学会无创心脏电医生理专业委员会...</p>
-          </div>
-        </div>
-        <div class="recommend-option" @click="introducePage">
-          <div class="recommend-option-img">
-            <image src="/static/image/index/doctor.png" mode="widthFix"></image>
-          </div>
-          <div class="recommend-content">
-            <p>
-              <span class="recommend-name">曾春芳</span>
-              <span class="recommend-rank">科主任</span>
-            </p>
-            <p class="recommend-site">海南医学院第一附属医院心电图室</p>
-            <p class="recommend-text">海南医学院第一附属医院心电图室,科室主任,教授,中国心电学会无创心脏电医生理专业委员会...</p>
-          </div>
-        </div>
-        <div class="recommend-option" @click="introducePage">
-          <div class="recommend-option-img">
-            <image src="/static/image/index/doctor.png" mode="widthFix"></image>
-          </div>
-          <div class="recommend-content">
-            <p>
-              <span class="recommend-name">曾春芳</span>
-              <span class="recommend-rank">科主任</span>
-            </p>
-            <p class="recommend-site">海南医学院第一附属医院心电图室</p>
-            <p class="recommend-text">海南医学院第一附属医院心电图室,科室主任,教授,中国心电学会无创心脏电医生理专业委员会...</p>
+            <p class="recommend-site">{{item.hospital}}</p>
+            <p class="recommend-text">{{item.introduction}}</p>
           </div>
         </div>
      </div>
@@ -60,11 +21,12 @@
 
 <script>
 import wxShare from '@/mixins/wx-share'
+import { apiDoctorList } from '@/service/my'
 export default {
   mixins: [wxShare],
   data () {
     return {
-
+      doctorList: []
     }
   },
   components: {
@@ -74,15 +36,21 @@ export default {
 
   },
   onShow(){
-
+    this.getDoctorList()
   },
   created(){
 
   },
   methods: {
-    introducePage(){
+    getDoctorList(){
+      apiDoctorList()
+      .then((res)=>{
+        this.doctorList = res.data.list
+      })
+    },
+    introducePage(id){
       wx.navigateTo({
-         url: '/pages/introduce/introduce'
+         url: '/pages/introduce/introduce?id='+id
        })
     }
   }
