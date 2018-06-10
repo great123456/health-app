@@ -23,14 +23,14 @@
          <span>地址</span>
          <input type="text" v-model="address" placeholder="请输入地址"/>
        </div>
-       <p class="order-btn" @click="getPayOrder">立即支付</p>
+       <p class="order-btn" @click="getPayOrder">保存</p>
     </div>
   </div>
 </template>
 
 <script>
 import wxShare from '@/mixins/wx-share'
-import { apiPayCheck } from '@/service/my'
+import { apiSaveInfo } from '@/service/my'
 export default {
   mixins: [wxShare],
   data () {
@@ -49,13 +49,7 @@ export default {
 
   },
   onShow(){
-    if(wx.getStorageSync('user-phone')){
-      this.name = wx.getStorageSync('user-name')
-      this.phone = wx.getStorageSync('user-phone')
-      this.age = wx.getStorageSync('user-age')
-      this.card = wx.getStorageSync('user-card')
-      this.address = wx.getStorageSync('user-address')
-    }
+
   },
   created(){
 
@@ -70,32 +64,26 @@ export default {
         })
         return
       }
-      apiPayCheck({
-        apm_name: this.name,
-        apm_age: this.age,
-        apm_phone: this.phone,
-        apm_pre_address: '广东省',
-        apm_det_address: this.address,
-        apm_id_card_no: this.card
+      apiSaveInfo({
+        name: this.name,
+        phone: this.phone,
+        id_card_no: this.card,
+        pre_address: '广东省',
+        det_address: this.address,
+        age: this.age
       })
       .then((res)=>{
-        console.log('pay',res);
         if(res.code == 200){
-          wx.requestPayment({
-             'timeStamp': res.data.timeStamp+ '',
-             'nonceStr': res.data.nonceStr,
-             'package': res.data.package,
-             'signType': 'MD5',
-             'paySign': res.data.paySign,
-             success:function(res){
-               wx.redirectTo({
-                 url: '/pages/order/order'
-               })
-             },
-             fail:function(err){
-               console.log('err',err)
-             }
+          wx.showToast({
+            title: '保存成功',
+            icon: 'success',
+            duration: 2000
           })
+          wx.setStorageSync('user-name', this.name)
+          wx.setStorageSync('user-phone', this.phone)
+          wx.setStorageSync('user-card', this.card)
+          wx.setStorageSync('user-address', this.address)
+          wx.setStorageSync('user-age', this.age)
         }else{
           wx.showToast({
             title: res.message,

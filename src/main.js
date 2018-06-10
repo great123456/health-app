@@ -23,6 +23,7 @@ export default {
       'pages/order/order',                            //订单列表
       'pages/report/report',                          //个人报告
       'pages/message/message',                        //个人信息
+      'pages/user-message/user-message',              //完善个人信息
       'pages/introduce/introduce',                    //医生主页
       'pages/detail/detail',                          //病种介绍
       'pages/edit-message/edit-message'               //填写个人信息

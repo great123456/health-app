@@ -2,7 +2,7 @@
 <template>
   <div class="container">
     <div class="order-option" v-for="(item,index) in orderList" :key="index">
-      <p class="order-title">{{item.type == 1?'24小时心电图检查':'预约住院'}}</p>
+      <p class="order-title">{{item.type == 1?'预约住院':'24小时心电图检查'}}</p>
       <p class="order-time"><span>{{item.created_at}}</span></p>
       <p class="order-price">￥{{item.total}}</p>
     </div>

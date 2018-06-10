@@ -15,7 +15,7 @@
        <p class="recommend-title">专家推荐</p>
        <div class="recommend-option" @click="introducePage(item.id)" v-for="(item,index) in doctorList" :key="index">
          <div class="recommend-option-img">
-           <image src="/static/image/index/doctor.png" mode="widthFix"></image>
+           <image :src="item.atar" mode="widthFix"></image>
          </div>
          <div class="recommend-content">
            <p>

@@ -74,7 +74,7 @@ export default {
     },
     messagePage(){
       wx.navigateTo({
-         url: '/pages/message/message'
+         url: '/pages/user-message/user-message'
        })
     }
   }
