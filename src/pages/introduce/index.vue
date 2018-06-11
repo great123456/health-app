@@ -2,7 +2,7 @@
 <template>
   <div class="container">
      <div class="introduce-header">
-       <image src="/static/image/index/doctor.png" mode="widthFix"></image>
+       <image :src="detail.atar" mode="widthFix"></image>
        <p class="introduce-name">{{detail.name}}</p>
        <p class="introduce-rank">{{detail.position}}</p>
        <p class="introduce-site">{{detail.hospital}}</p>
