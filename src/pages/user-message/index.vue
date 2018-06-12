@@ -49,7 +49,13 @@ export default {
 
   },
   onShow(){
-
+    if(wx.getStorageSync('user-phone')){
+      this.name = wx.getStorageSync('user-name')
+      this.phone = wx.getStorageSync('user-phone')
+      this.age = wx.getStorageSync('user-age')
+      this.card = wx.getStorageSync('user-card')
+      this.address = wx.getStorageSync('user-address')
+    }
   },
   created(){
 

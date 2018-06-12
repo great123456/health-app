@@ -1,7 +1,8 @@
 <!-- 个人报告 -->
 <template>
   <div class="container">
-    <div class="report-option" v-for="(item,index) in reportList" :key="index">
+    <div class="report-option" v-for="(item,index) in reportList"
+    :key="index" @click="getReportDetail(item.id)">
       <p class="report-text">
        <span>报告人:{{item.name}}</span>
        <span>查看报告</span>
@@ -42,11 +43,26 @@ export default {
       })
     },
     getReportDetail(id){
-      apiReportDetail({
-        id: id
+      console.log('id',id);
+      wx.showLoading({
+        title: '文件下载中...',
       })
-      .then((res)=>{
-
+      wx.downloadFile({
+        url: 'https://healthapi.hxgtech.com/api/report/show/'+id,
+        header:{
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'token': wx.getStorageSync('token') || ''
+        },
+        success: function (res) {
+          var filePath = res.tempFilePath
+          wx.hideLoading()
+          wx.openDocument({
+            filePath: filePath,
+            success: function (res) {
+              console.log('打开文档成功')
+            }
+          })
+        }
       })
     }
   }
