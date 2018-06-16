@@ -13,12 +13,12 @@
        <p class="introduce-text">{{detail.introduction}}</p>
        <p class="introduce-btn" @click="editMessagePage">去问诊</p>
      </div>
-     <div class="introduce-container">
+     <!-- <div class="introduce-container">
         <div class="introduce-content">
           <p class="introduce-content-title">医生介绍</p>
           <p class="introduce-content-text">{{detail.content}}</p>
         </div>
-     </div>
+     </div> -->
   </div>
 </template>
 
@@ -67,14 +67,14 @@ export default {
 
 <style lang="scss" scoped>
 .container{
-  padding-bottom: 100rpx;
+  box-sizing: border-box;
 }
 .introduce-header{
   width:100%;
   background: #5ABFFF;
   padding: 60rpx 30rpx;
   padding-left:100rpx;
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   color:#ffffff !important;
   position: relative;
   image{

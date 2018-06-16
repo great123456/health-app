@@ -24,7 +24,7 @@
       <div class="edit-option">
         <p class="edit-title">住院日期<span style="color:#ea3a3a;">*</span></p>
         <div class="edit-put">
-          <picker mode="date" :value="date" start="2015-09-01" end="2017-09-01" @change="bindDateChange">
+          <picker mode="date" :value="date" start="2015-09-01" end="2020-09-01" @change="bindDateChange">
              {{date}}
           </picker>
         </div>
