@@ -4,7 +4,7 @@
       <div class="recommend">
         <div class="recommend-option" @click="introducePage(item.id)" v-for="(item,index) in doctorList" :key="index">
           <div class="recommend-option-img">
-            <image :src="item.atar" mode="widthFix"></image>
+            <image :src="item.atar"></image>
           </div>
           <div class="recommend-content">
             <p>
@@ -84,6 +84,8 @@ export default {
     left:0px;
     image{
       width:70rpx;
+      height:70rpx;
+      border-radius: 100%;
     }
   }
   .recommend-content{

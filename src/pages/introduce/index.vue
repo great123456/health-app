@@ -2,7 +2,7 @@
 <template>
   <div class="container">
      <div class="introduce-header">
-       <image :src="detail.atar" mode="widthFix"></image>
+       <image :src="detail.atar"></image>
        <p class="introduce-name">{{detail.name}}</p>
        <p class="introduce-rank">{{detail.position}}</p>
        <p class="introduce-site">{{detail.hospital}}</p>
@@ -79,6 +79,8 @@ export default {
   position: relative;
   image{
     width:120rpx;
+    height:120rpx;
+    border-radius: 100%;
     position: absolute;
     top:60rpx;
     left:30rpx;
@@ -112,6 +114,8 @@ export default {
       padding:5rpx 10rpx;
       margin-left: 20rpx;
       border-radius: 100rpx;
+      min-width: 90rpx;
+      text-align: center;
     }
   }
   .introduce-text{
