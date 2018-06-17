@@ -4,7 +4,7 @@
      <div class="banner">
        <swiper :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration"
        :indicator-active-color="color">
-          <block v-for="(item,index) in imgUrls" :key="index">
+          <block v-for="(item,index) in bannerList" :key="index">
             <swiper-item>
               <image :src="item" class="slide-image" mode="widthFix"></image>
             </swiper-item>
@@ -60,7 +60,7 @@
 
 <script>
 import wxShare from '@/mixins/wx-share'
-import { userLogin,apiTypeList,apiDoctorList } from '@/service/my'
+import { userLogin,apiTypeList,apiDoctorList,apiIndexBanner } from '@/service/my'
 export default {
   mixins: [wxShare],
   data () {
@@ -71,11 +71,12 @@ export default {
        '/static/image/index/banner2.png',
        '/static/image/index/banner3.png'
      ],
+     bannerList: [],
      indicatorDots: true,
      color: '#0D9EFF',
      autoplay: true,
-     interval: 2000,
-     duration: 300,
+     interval: 2500,
+     duration: 600,
      categoryList: [],
      doctorList: []
     }
@@ -96,6 +97,9 @@ export default {
     getUserInfo () {
       // 调用登录接口
       const self = this
+      wx.showLoading({
+        title: '加载中',
+      })
       wx.login({
         success: (res) => {
           userLogin({
@@ -104,9 +108,28 @@ export default {
           .then((res)=>{
             console.log('login-res',res);
             wx.setStorageSync('token', res.data.token)
+            this.getBannerList()
             self.getTypeList()
             self.getDoctorList()
           })
+        }
+      })
+    },
+    getBannerList(){
+      const self = this
+      this.bannerList = []
+      apiIndexBanner()
+      .then((res)=>{
+        if(res.code == 200){
+          if(res.data.list.length&&res.data.list.length>0){
+            res.data.list.forEach(function(item){
+              self.bannerList.push(item.img)
+            })
+          }else{
+            self.bannerList = self.imgUrls
+          }
+        }else{
+          self.bannerList = self.imgUrls
         }
       })
     },
@@ -121,6 +144,7 @@ export default {
       this.doctorList = []
       apiDoctorList()
       .then((res)=>{
+        wx.hideLoading()
         if(res.data.list.length<=3){
           this.doctorList = res.data.list
         }else{

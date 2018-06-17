@@ -5,6 +5,9 @@ import { API_PATH } from '@/config/env'
 // 微信登录
 export const userLogin = (ajaxParams) => wxRequest(API_PATH + '/auth/login', ajaxParams, 'GET')
 
+//banner
+export const apiIndexBanner = (ajaxParams) => wxRequest(API_PATH + '/banner/list/5', ajaxParams, 'GET')
+
 //保存个人信息
 export const apiSaveInfo = (ajaxParams) => wxRequest(API_PATH + '/auth/save', ajaxParams, 'POST')
 
