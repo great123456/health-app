@@ -11,7 +11,7 @@
          <span>{{detail.good_at}}</span>
        </p>
        <p class="introduce-text">{{detail.introduction}}</p>
-       <p class="introduce-btn" @click="editMessagePage">去问诊</p>
+       <!-- <p class="introduce-btn" @click="editMessagePage">去问诊</p> -->
      </div>
      <!-- <div class="introduce-container">
         <div class="introduce-content">
@@ -115,7 +115,7 @@ export default {
       margin-left: 20rpx;
       border-radius: 100rpx;
       min-width: 90rpx;
-      text-align: center;
+      text-align: left;
     }
   }
   .introduce-text{

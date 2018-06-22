@@ -6,6 +6,6 @@ app.$mount()
 
 export default {
   config: {
-    navigationBarTitleText: '专家团队'
+    navigationBarTitleText: '专家介绍'
   }
 }

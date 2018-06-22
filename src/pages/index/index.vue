@@ -21,7 +21,7 @@
          <button open-type="contact" class="contact-btn"></button>
        </div>
      </div>
-     <div class="list">
+     <!-- <div class="list">
        <div class="list-img">
          <image src="/static/image/index/guide.png" mode="widthFix"></image>
          <button open-type="contact" class="contact-btn"></button>
@@ -29,17 +29,17 @@
        <div class="list-img" @click="editMessagePage">
          <image src="/static/image/index/contact.png" mode="widthFix"></image>
        </div>
-     </div>
+     </div> -->
 
-     <div class="category">
-       <p>病种分类</p>
+     <!-- <div class="category">
+       <p>分类</p>
        <ul>
          <li v-for="(item,index) in categoryList" :key="index" @click="detailPage(item.id)">{{item.name}}</li>
        </ul>
-     </div>
+     </div> -->
 
      <div class="recommend">
-        <p class="recommend-title">专家推荐</p>
+        <p class="recommend-title">推荐</p>
         <div class="recommend-option" @click="introducePage(item.id)" v-for="(item,index) in doctorList" :key="index">
           <div class="recommend-option-img">
             <image :src="item.atar"></image>

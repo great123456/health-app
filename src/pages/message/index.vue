@@ -23,7 +23,7 @@
          <span>地址</span>
          <input type="text" v-model="address" placeholder="请输入地址"/>
        </div>
-       <p class="order-btn" @click="getPayOrder">立即支付</p>
+       <p class="order-btn" @click="getPayOrder">立即报名</p>
     </div>
   </div>
 </template>

@@ -46,12 +46,12 @@ export default {
         iconPath: '/static/image/index/home.png',
         selectedIconPath: '/static/image/index/home-select.png'
       }, {
-        text: '专家团队',
+        text: '专家介绍',
         pagePath: 'pages/team/team',
         iconPath: '/static/image/index/expert.png',
         selectedIconPath: '/static/image/index/expert-select.png'
       },{
-        text: '医院品牌',
+        text: '医院介绍',
         pagePath: 'pages/brand/brand',
         iconPath: '/static/image/index/brand.png',
         selectedIconPath: '/static/image/index/brand-select.png'
